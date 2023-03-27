@@ -6,11 +6,22 @@ router.get('/', (req, res) => {
 
 })
 router.get('/new', (req, res) => {
-    res.send('User newForm')
+    res.render('users/new', { firstName: "Michael" })
 })
-
+const users = [];
 router.post('/', (req, res) => {
-    res.send('Create User')
+    let firstName = req.body.firstName;
+    console.log(users);
+    const isValid = true;
+    if (false) {
+        users.push({ firstName: firstName })
+        res.redirect(`/users/${users.length - 1}`)
+    } else {
+        console.log('error');
+        res.render('users/new', { firstName: firstName })
+    }
+    console.log(firstName);
+    // res.send('Create User')
 })
 
 // router.route('/:id').get((req, res) => {
@@ -31,6 +42,8 @@ router.post('/', (req, res) => {
 // router.delete('/:id', (req, res) => {
 //     res.send(`Delete user with id ${req.params.id}`)
 // })
+
+
 router.route('/:id')
     .get((req, res, next) => {
         res.send(`Get user with id ${req.params.id}`)
