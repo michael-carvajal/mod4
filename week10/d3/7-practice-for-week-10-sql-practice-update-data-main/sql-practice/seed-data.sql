@@ -13,5 +13,11 @@ VALUES
   ('Morgan', 'Jones'),
   ('Shannon', 'Noble'),
   ('River', 'Song');
-
+-- UPDATE friends
+-- SET first_name = 'Ryder'
+-- WHERE first_name = 'Ryan';
+UPDATE friends
+SET last_name = 'Blue'
+WHERE first_name = 'Sky'
+  AND last_name = 'Tyler';
 SELECT * FROM friends;
