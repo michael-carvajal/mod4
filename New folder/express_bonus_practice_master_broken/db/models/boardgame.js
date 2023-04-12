@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Boardgame.belongsTo(models.Category, { foreignKey: 'categoryId' })
-      Boardgame.hasMany(models.Review, { foreignkey: 'gameId' })
+      Boardgame.hasMany(models.Review, { foreignKey: 'gameId' })
     }
   }
   Boardgame.init({

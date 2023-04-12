@@ -21,6 +21,7 @@ const handleValidationErrors = (req, _res, next) => {
 
 const handleGameErrors = (req, res, next) => {
     const errArray = req.errors;
+    console.log(errArray);
     if (errArray.length >= 1) {
         const err = Error('There was at least one error when attempting to create a board game');
         err.errors = errArray;
@@ -28,6 +29,7 @@ const handleGameErrors = (req, res, next) => {
         err.title = 'Bad request.';
         next(err);
     }
+    next()
 }
 
 module.exports = {

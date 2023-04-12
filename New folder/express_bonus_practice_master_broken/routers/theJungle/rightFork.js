@@ -21,9 +21,9 @@ const stubbedToe = (req, res, next) => {
     next('Stubbed toe')
 }
 
-router.use(stubbedToe)
+// router.use(stubbedToe)
+router.use(checkYourHeading)
 router.use(takeAWellEarnedRest)
 router.use(backOnTheTrail)
-router.use(checkYourHeading)
 
 module.exports = router;

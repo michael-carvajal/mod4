@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/styles/main.css">
+
+    <title>MoonBook</title>
+</head>
+
+<body>
+    <h1>Welcome to MoonBook</h1>
+    <% users.forEach(function(user) { %>
+        <div class="profile-card">
+            <img src="<%= user.profileImage %>">
+            <h2>
+                <%= user.name %>
+            </h2>
+            <p>
+                <%= user.bio %>
+            </p>
+        </div>
+        <% }); %>
+</body>
+
+</html>

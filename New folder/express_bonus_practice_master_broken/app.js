@@ -5,21 +5,25 @@ const { Boardgame, Category, Review, User, sequelize } = require('./db/models');
 const { handleGameErrors } = require('./utils');
 const usersRouter = require('./routers/users');
 const jungleEntrance = require('./routers/theJungle/jungleEntrance');
-
+const sayHello = (req, res, next) => {
+    console.log('heleelelelo');
+    next()
+}
 app.use(express.json());
-app.use(usersRouter);
+app.use('/users', sayHello, usersRouter);
 
-app.get('/boardgames', async(res, req, next) => {
+app.get('/boardgames', async (req, res, next) => {
     try {
         const boardgames = await Boardgame.findAll({
             include: [
                 {
                     model: Category,
                     attributes: ['name']
-                }, 
+                },
                 {
-                    model: Reviews,
+                    model: Review,
                     attributes: ['content', 'rating'],
+                    // as: 'gameIdd'
                     include: {
                         model: User,
                         attributes: ['username']
@@ -28,13 +32,15 @@ app.get('/boardgames', async(res, req, next) => {
             ],
             order: [['name']]
         })
-        res.json(boardgame)
+
+
+        res.json(boardgames)
     } catch (err) {
         next(err)
     }
 });
 
-app.get('/boardgames/:id', async(req, res, next) => {
+app.get('/boardgames/:id', async (req, res, next) => {
     try {
         const boardgame = await Boardgame.findByPk(req.params.id, {
             include: [
@@ -44,16 +50,18 @@ app.get('/boardgames/:id', async(req, res, next) => {
                 },
                 {
                     model: Review,
-                    attributes: ['content', 'rating'] 
+                    attributes: ['content', 'rating'],
+                    include: {
+                        model: User,
+                        attributes: ['username']
+
+                    }
                 },
-                {
-                    model: User,
-                    attributes: ['username']
-                }
+
             ],
         })
 
-        const gameAggData = await Boardgame.findByPk(req.params.gameId, {
+        const gameAggData = await Boardgame.findByPk(req.params.id, {
             include: Review,
             attributes: [
                 [sequelize.fn('AVG', sequelize.col('rating')), 'averageReviewRating'],
@@ -77,17 +85,18 @@ app.get('/boardgames/:id', async(req, res, next) => {
     } catch (err) {
         next(err)
     }
-    
+
 })
 
 const gameNameCheck = (req, res, next) => {
     // add errors array property to the request to hold any validation errors
     req.errors = []
-
-    const {name} = req.body
-    if  (!name) {
+    console.log('name check');
+    const { name } = req.body
+    if (!name) {
         req.errors.push('All board games must have a name')
     }
+    console.log('name check 2');
     next()
 }
 
@@ -99,6 +108,7 @@ const gamePlayersCheck = (req, res, next) => {
     if (maxPlayers < 1) {
         req.errors.push('A board game must be able to be played by at least 1 player')
     }
+    console.log('gamer check');
     next()
 }
 
@@ -107,6 +117,7 @@ const gameCategoryCheck = (req, res, next) => {
     if (!categoryId) {
         req.errors.push('All board games must be associated with a Category')
     }
+    console.log('category check');
     next()
 }
 
@@ -117,7 +128,8 @@ const gameValidator = [
     handleGameErrors
 ]
 
-app.post('/boardgames', gameValidator, async(req, res, next) => {
+app.post('/boardgames', gameValidator, async (req, res, next) => {
+    console.log('posting game');
     const { name, maxPlayers, categoryId } = req.body
     const game = await Boardgame.create({
         name,

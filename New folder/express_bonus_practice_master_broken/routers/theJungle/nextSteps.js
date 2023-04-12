@@ -8,19 +8,19 @@ router.use((err, req, res, next) => {
     next()
 })
 
-router.use((req, res, next) => {
-    console.log('You got lost D:')
-    next('You got lost D:')
-})
+// router.use((req, res, next) => {
+//     console.log('You got lost D:')
+//     next('You got lost D:')
+// })
 
-router.use((req, res, next) => {
-    console.log('Two')
-    next()
-})
+// router.use((req, res, next) => {
+//     console.log('Two')
+//     next()
+// })
 
 // A fork in the road...
-router.use(left);
 router.use(right);
+router.use(left);
 
 
 

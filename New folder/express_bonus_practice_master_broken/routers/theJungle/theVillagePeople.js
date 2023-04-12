@@ -1,4 +1,5 @@
 const potionStall = (err, req, res, next) => {
+    console.log('potion stall');
     next()
 }
 

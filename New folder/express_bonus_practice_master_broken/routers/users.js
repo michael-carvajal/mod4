@@ -3,6 +3,12 @@ const { check } = require('express-validator');
 const router = express.Router();
 const { User } = require('../db/models');
 const { handleValidationErrors } = require('../utils');
+router.get('/hello', async (req, res) => {
+    console.log('hello');
+    const allUsers = await User.findAll();
+
+    res.json(allUsers)
+})
 
 // Check out the npm documentation for the "express-validator" package
 // You can start here: https://www.npmjs.com/package/express-validator :)
@@ -18,11 +24,14 @@ const signupValidator = [
         .exists({ checkFalsey: true })
         .isLength({ min: 7 })
         .withMessage("Your Password must exist and be at least 10 characters long"),
-        handleValidationErrors
+    handleValidationErrors
 ]
 
 const userDeleteValidator = (req, res, next) => {
-    if (req.params.id !== req.body.userId) {
+    console.log(
+        req.params.id,
+        req.body.userId);
+    if (req.params.id != req.body.userId) {
         const err = new Error('You can only delete your own user account')
         err.status = 403
         err.title = 'Access denied'
@@ -33,8 +42,9 @@ const userDeleteValidator = (req, res, next) => {
 
 // request body must contain a username, an email and a password
 // request body may optionally contain a faveCategoryId
-router.post('/signup', signupValidator, async(req, res, next) => {
-    const {username, email, password, faveCategoryId} = req.body;
+router.post('/signup', signupValidator, async (req, res, next) => {
+    console.log('hello');
+    const { username, email, password, faveCategoryId } = req.body;
     try {
         const user = await User.create({
             username,
@@ -53,8 +63,9 @@ router.post('/signup', signupValidator, async(req, res, next) => {
 })
 
 // request body must contain a userId that matches the id route parameter
-router.delete('/:id/destroy', userDeleteValidator, async(req, res, next) => {
+router.delete('/:id/destroy', userDeleteValidator, async (req, res, next) => {
     const user = await User.findByPk(req.params.id)
+    console.log(user);
     if (user) {
         await user.destroy()
         return res.json({

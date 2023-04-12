@@ -13,9 +13,9 @@ const welcomeToTheJungle = (req, res, next) => {
 }
 
 router.use(welcomeToTheJungle)
+router.use(enterTheJungle)
 
 router.use(journeyDeeper)
 
-router.use(enterTheJungle)
 
 module.exports = router;

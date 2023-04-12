@@ -16,7 +16,7 @@ router.use((req, res, next) => {
     console.log('Six')
     next()
 })
-router.use(onTheRightPath)
+// router.use(onTheRightPath)
 router.use(onTheLeftPath)
 router.use(madeItToAVillage)
 

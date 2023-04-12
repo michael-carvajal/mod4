@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Category, {foreignKey: 'faveCategoryId'})
+      User.hasMany(models.Category, { foreignKey: 'faveCategoryId' })
       User.hasMany(models.Review, { foreignKey: 'userId' })
     }
   }
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         len: {
-          args: [33],
+          args: [3],
           message: 'Your username must be at least three characters long'
         }
       }
